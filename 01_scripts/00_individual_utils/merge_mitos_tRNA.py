@@ -151,7 +151,7 @@ def create_transcript_line(trna_entry, second):
 
 def main():
     mitos_gffp, trnaseq_gffp = sys.argv[1:3]
-    outpath = "10_merged_annotations"
+    outpath = "08_merged_annotations"
     print(f"parsing files: {mitos_gffp}")
     mitos_gff = parse_gff(mitos_gffp)
     trna_gff = parse_gff(trnaseq_gffp)
