@@ -6,6 +6,16 @@ import sys, itertools
 # User imput
 fasta, gff, taxtable = sys.argv[1:4]
 
+if len(sys.argv) == 5:
+    blacklist_path = sys.argv[5]
+    with open(blacklist_path, "r") as inf:
+        blacklist = [x.strip().replace(" ", "_") for x in inf]
+else:
+    blacklist = [None]
+print(blacklist)
+
+#Constant
+OUTDIR = "15_new_gene_sequences"
 gene_names = {
     "ATP6": "ATP6", "atp6": "ATP6",
     "ATP8": "ATP8", "atp8": "ATP8",
@@ -21,17 +31,6 @@ gene_names = {
     "NADH5": "NADH5", "nad5": "NADH5", "ND5": "NADH5",
     "NADH6": "NADH6", "nad6": "NADH6", "ND6": "NADH6"
 }
-
-if len(sys.argv) == 6:
-    blacklist_path = sys.argv[5]
-    with open(blacklist_path, "r") as inf:
-        blacklist = [x.strip().replace(" ", "_") for x in inf]
-else:
-    blacklist = [None]
-print(blacklist)
-
-#Constant
-OUTDIR = "18_accession_sequences"
 
 # Functions
 def translate_codon(codon):
