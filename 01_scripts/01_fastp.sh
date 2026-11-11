@@ -19,8 +19,8 @@ do
     fastp -w 6 \
         -i "$input_file"_R1.fastq.gz \
         -I "$input_file"_R2.fastq.gz \
-        -o 05_trimmed/"$output_file"_1.trimmed.fastq.gz \
-        -O 05_trimmed/"$output_file"_2.trimmed.fastq.gz \
-        -j 05_trimmed/01_reports/"$output_file".json \
-        -h 05_trimmed/01_reports/"$output_file".html
+        -o 02_fastp/"$output_file"_1.trimmed.fastq.gz \
+        -O 02_fastp/"$output_file"_2.trimmed.fastq.gz \
+        -j 02_fastp/01_reports/"$output_file".json \
+        -h 02_fastp/01_reports/"$output_file".html
 done
