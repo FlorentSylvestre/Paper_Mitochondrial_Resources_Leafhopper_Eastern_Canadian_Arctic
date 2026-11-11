@@ -4,7 +4,12 @@
 import sys, itertools
 
 # User imput
-fasta, gff, taxtable = sys.argv[1:4]
+fasta, gff, taxtable = sys.argv[1:3]
+
+if len(sys.argv) >3:
+    taxtable = sys.argv[4]
+else:
+    taxtable = None
 
 if len(sys.argv) == 5:
     blacklist_path = sys.argv[5]
@@ -97,7 +102,9 @@ def get_Name(gff_line):
         return None
     return field[0].split("=")[1]
 
-def conv_acc(acc, tax):
+def conv_acc(acc, tax = None):
+    if tax is None:
+        return acc
     n = acc[:-2] if acc.endswith(".1") else acc
     return tax[n]
 
@@ -164,21 +171,14 @@ def parse_gene_seq(coord, fasta, blacklist):
         if strand == "-":
             seq = seq.translate(seq.maketrans('ACGTacgtRYMKrymkVBHDvbhdNn-', 'TGCAtgcaYRKMyrkmBVDHbvdhNn-'))[::-1]
         prot = translate_seq(seq)
-
-        
         if gene not in results_prot:
             results_prot[gene] = ""
-
         results_prot[gene] += f">{sp}\n{prot}\n"
-    
-
     return results_prot
 
 
-
-
 # Main
-tax = parse_taxo(taxtable)
+tax = parse_taxo(taxtable) if taxtable is not None else None
 gene_coord = parse_gff(gff, gene_names, tax)
 fasta_dict = parse_fasta(fasta, tax)
 
