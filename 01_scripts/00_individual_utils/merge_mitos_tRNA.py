@@ -1,11 +1,5 @@
 #!/bin/python
 
-"""
-Merge mitos2 and tRNAscan_SE annotation
-
-Usage: python3 05_merge_mitos_tRNA.py <mitos_gffp>, <trnaseq_gffp>
-"""
-
 import sys
 from collections import defaultdict
 from pathlib import Path
