@@ -7,6 +7,7 @@ reads="02_raw_files"
 bwa_out="11_bam_alignements"
 fasta_in="06_reoriented"
 misc_paper="99_paper_specific_files/Stroggylo_extra"
+SNPs="12_pileup_files"
 
 cat $fasta_in/Diploconelus_abdominalis.fasta $fasta_in/Tomosvaryella_diploconelus_abdominalis.fasta > $bwa_out/Diploconelus_abdominalis.fasta
 cat $fasta_in/Psammotettix_alienus.fasta $fasta_in/Sorhoanus_sp.fasta > $bwa_out/Psammotettix_alienus.fasta
@@ -23,4 +24,6 @@ for i in $bwa_out/*fasta
   samtools sort - \
   samtools view -q 10 -b -o $bwa_out/${sp}.bam -
 
+  bcftools mpileup -Ou -f $i -o $SNPs/${sp}.mpileup $bwa_out/${sp}.bam
+  rm $i
   done
