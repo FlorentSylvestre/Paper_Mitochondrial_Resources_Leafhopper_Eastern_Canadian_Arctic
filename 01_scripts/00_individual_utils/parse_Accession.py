@@ -4,7 +4,23 @@
 import sys, itertools
 
 # User imput
-fasta, gff, names_corress, taxtable = sys.argv[1:5]
+fasta, gff, taxtable = sys.argv[1:4]
+
+gene_names = {
+    "ATP6": "ATP6", "atp6": "ATP6",
+    "ATP8": "ATP8", "atp8": "ATP8",
+    "COI": "COI", "COX1": "COI", "cox1": "COI", "COXI": "COI",
+    "COII": "COII", "COX2": "COII", "cox2": "COII",
+    "COIII": "COIII", "COX3": "COIII", "cox3": "COIII",
+    "CYTB": "CYTB", "cob": "CYTB", "Cytb": "CYTB", "cytb": "CYTB",
+    "NADH1": "NADH1","nad1": "NADH1", "ND1": "NADH1",
+    "NADH2": "NADH2", "nad2": "NAH2", "NAD2": "NADH2", "ND2": "NADH2",
+    "NADH3": "NADH3", "nad3": "NADH3", "ND3": "NADH3",
+    "NADH4": "NADH4", "nad4": "NADH4", "ND4": "NADH4",
+    "NADH4L": "NADH4L", "nad4l": "NADH4L", "ND4L": "NADH4L",
+    "NADH5": "NADH5", "nad5": "NADH5", "ND5": "NADH5",
+    "NADH6": "NADH6", "nad6": "NADH6", "ND6": "NADH6"
+}
 
 if len(sys.argv) == 6:
     blacklist_path = sys.argv[5]
@@ -63,10 +79,6 @@ def translate_codon(codon):
     print(f"Error parsing codon: {codon}; unable to resolve ambuiguity")
     return "X"
         
-
-
-
-
 def translate_seq(seq):
     codons = [seq[x:x+3] for x in range(0, len(seq), 3)]
 
@@ -89,16 +101,6 @@ def get_Name(gff_line):
 def conv_acc(acc, tax):
     n = acc[:-2] if acc.endswith(".1") else acc
     return tax[n]
-
-
-def parse_names(path):
-    name_dict = {}
-    with open(path, "r") as namesf:
-        for line in namesf:
-            l = line.strip().split()
-            ref = l[0]
-            name_dict.update({x: ref for x in l})
-    return name_dict
 
 def parse_fasta(path, tax):
     seq_dict = {}
@@ -177,7 +179,6 @@ def parse_gene_seq(coord, fasta, blacklist):
 
 
 # Main
-gene_names = parse_names(names_corress)
 tax = parse_taxo(taxtable)
 gene_coord = parse_gff(gff, gene_names, tax)
 fasta_dict = parse_fasta(fasta, tax)
