@@ -4,8 +4,8 @@
 Script that extract gene flanking region for inspection of start and stop codon in Geneious
 
 Usage: python3 Extract_gene_flanking_regions <fasta_path>, <gff_path>,  <windows>, <outprefix>
-fasta_path: path to a filex containing a list of path to fastas, one per line
-gff_path: path to a filex containing a list of path to gff, one per line
+fasta_path: path to a file containing a list of path to fastas, one per line
+gff_path: path to a file containing a list of path to gff, one per line
 windows: size of gene flanking region to include
 outprefix: output directory name
 """
