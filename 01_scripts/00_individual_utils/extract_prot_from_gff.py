@@ -3,10 +3,20 @@
 # Modules
 import sys, itertools, argparse
 
+"""
+take input fasta and gff and output most likely protein equences accounting for uncertainty codon
+Can exclude samples using a blacklist and convert name using a taxtable
+Blacklist is a one column files with fasta entry to ingnore (one per line)
+taxtable is a tab-delimited two-columns file linking fasta ID (1st) to new name (2nd)
+"""
+
+
+
 # User input
 p = argparse.ArgumentParser()
 p.add_argument("-f", required = True, help = "Path to fasta file")
 p.add_argument("-g", required = True, help = "Path to gff3 file" )
+p.add_argument("-o", required = True, help = "Path to a directory for output files")
 p.add_argument("-taxtable", default = None, required = False, help = "NCBI-entry to SP name correspondance table")
 p.add_argument("-blacklist", default = None, required = False, help = "path to a file listing sequences from fasta to ignore")
 args = p.parse_args()
@@ -18,8 +28,6 @@ if args.blacklist is not None:
 else:
     args.blacklist = []
 
-#Constant
-OUTDIR = "15_new_gene_sequences"
 gene_names = {
     "ATP6": "ATP6", "atp6": "ATP6",
     "ATP8": "ATP8", "atp8": "ATP8",
@@ -186,6 +194,6 @@ fasta_dict = parse_fasta(args.f, tax)
 prot_seq = parse_gene_seq(gene_coord, fasta_dict, args.blacklist)
 
 for gene in prot_seq:
-    with open(f"{OUTDIR}/{gene}.prot", "w") as prot:
+    with open(f"{args.o}/{gene}.prot", "w") as prot:
         prot.write(prot_seq[gene])
 
