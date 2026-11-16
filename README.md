@@ -32,22 +32,22 @@ AL9: Stroggylocephalus mixtus
 Download them in the 02_raw_files folder if you want to run the pipeline
 
 ## Mitochondria assembly
-Script 1-2 clean the reads and provide a first assembly of the mitochondria usign GetOrganelle
-These assembly are fragmented due to the presence of strong polymorphism
-Genome graph were curated using Bandage, a manual step that couldn't be reproduced here
-After that, script 3 was use to obtain new mitochondria assembly, which were extracted and renamed
-For species with multiple mitochondria assembled, each was ID using the BOLD portal (https://id.boldsystems.org/), renamed and reID accordingly 
-After this step, put each assembled fasta in 05_sequences_and_annotations
-Run mitos2 on galaxy (https://microbiology.usegalaxy.org/?tool_id=mitos2) using invertabrate code and the RefSeq89 Metazoa db and download resulting gff3 in 05_sequences_and_annotations
+- Script 1-2 clean the reads and provide a first assembly of the mitochondria usign GetOrganelle
+- These assembly are fragmented due to the presence of strong polymorphism
+- Genome graph were curated using Bandage, a manual step that couldn't be reproduced here
+- After that, script 3 was use to obtain new mitochondria assembly, which were extracted and renamed
+- For species with multiple mitochondria assembled, each was ID using the BOLD portal (https://id.boldsystems.org/), renamed and reID accordingly 
+- After this step, put each assembled fasta in 05_sequences_and_annotations
+- Run mitos2 on galaxy (https://microbiology.usegalaxy.org/?tool_id=mitos2) using invertabrate code and the RefSeq89 Metazoa db and download resulting gff3 in 05_sequences_and_annotations
 
 ## Mitochondria cleaning
-Scripts 4-8 Reorient mitochondria, re-annotate tRNA to complete their annotation and allow manual cleaning of start and stop codon before providing an NCBI-ready gff file
-Scripts 9-11 realign reads back to the associated mitochondria, before estimating coverage and SNP density for visualisation in proksee (https://proksee.ca/)
-Scripts 12-12 extract and align protein-coding sequences from generated mitochondria and NCBI-available leafhopper mitochondria (available in 99_paper_specific_files)
+- Scripts 4-8 Reorient mitochondria, re-annotate tRNA to complete their annotation and allow manual cleaning of start and stop codon before providing an NCBI-ready gff file
+- Scripts 9-11 realign reads back to the associated mitochondria, before estimating coverage and SNP density for visualisation in proksee (https://proksee.ca/)
+- Scripts 12-12 extract and align protein-coding sequences from generated mitochondria and NCBI-available leafhopper mitochondria (available in 99_paper_specific_files)
 
 # Phylogenetic analysis
-To reproduce phylogenetic analysis, run G-block on concatenated_alignement.fasta available in 18_aligned_sequences
-the run IQTREE as:
+- To reproduce phylogenetic analysis, run G-block on concatenated_alignement.fasta available in 18_aligned_sequences
+- then run IQTREE as:
 
 iqtree2 -s 18_aligned_sequences/concatenated_alignement.fasta-gb.fa -B 1000 -MFP
 
