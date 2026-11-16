@@ -5,7 +5,7 @@
 
 acc_path="14_accessions"
 acc_data="99_paper_specific_files/16_Accession_metadata.tar.gz"
-acc_names="99_paper_specific_files/acc_taxtable"
+acc_names="99_paper_specific_files/taxtable_acc"
 new_seq_path="10_final_gff"
 out_acc="16_accession_gene_sequences"
 out_new="15_new_gene_sequences"
