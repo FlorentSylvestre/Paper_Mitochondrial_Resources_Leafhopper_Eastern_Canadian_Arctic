@@ -5,10 +5,10 @@ import sys, itertools, argparse
 
 # User input
 p = argparse.ArgumentParser()
-p.add_argument(-f, required = True, help = "Path to fasta file")
-p.add_argument(-g, required = True, help = "Path to gff3 file" )
-p.add_argument(taxtable, default = None, required = False, help = "NCBI-entry to SP name correspondance table")
-p.add_argument(blacklist, default = None, required = False, help = "path to a file listing sequences from fasta to ignore")
+p.add_argument("-f", required = True, help = "Path to fasta file")
+p.add_argument("-g", required = True, help = "Path to gff3 file" )
+p.add_argument("-taxtable", default = None, required = False, help = "NCBI-entry to SP name correspondance table")
+p.add_argument("-blacklist", default = None, required = False, help = "path to a file listing sequences from fasta to ignore")
 args = p.parse_args()
 
 if args.blacklist is not None:
@@ -101,11 +101,11 @@ def get_Name(gff_line):
         return None
     return field[0].split("=")[1]
 
-def conv_acc(acc, tax = None):
-    if tax is None:
-        return acc
+def conv_acc(acc, tax):
     n = acc[:-2] if acc.endswith(".1") else acc
-    return tax[n]
+    if n in tax:
+        return tax[n]
+    return n
 
 def parse_fasta(path, tax):
     seq_dict = {}
@@ -147,8 +147,11 @@ def parse_gff(path, gene_names, tax):
 
     return genes
     
-def parse_taxo(table):
+def parse_taxtable(table):
     convtable = {}
+    if table is None:
+        return convtable
+
     with open(table, "r") as tablin:
         for line in tablin:
             print(line)
@@ -157,7 +160,7 @@ def parse_taxo(table):
             if acc.endswith(".1"):
                 acc = acc[:-2]
             convtable[acc] = l[1]
-return convtable
+    return convtable
 
 def parse_gene_seq(coord, fasta, blacklist):
     results_prot = {} 
