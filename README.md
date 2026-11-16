@@ -3,7 +3,7 @@
 This repos contain all the script necassary to reproduce the results presented in the paper:
 ### Mitochondrial genomes of leafhoppers and a parasitoid fly expand genomic resources for the Eastern Canadian Arctic
 ### Sylvestre F., Plante N., Molligan J., Grégoire Taillefer A., Pérez-lopez E. 
-### LINK Avaialable upon publication
+### LINK Available upon publication
 
 
 ## Requirements:
