@@ -1,23 +1,22 @@
 #!/bin/python3
 
 # Modules
-import sys, itertools
+import sys, itertools, argparse
 
-# User imput
-fasta, gff, taxtable = sys.argv[1:3]
+# User input
+p = argparse.ArgumentParser()
+p.add_argument(-f, required = True, help = "Path to fasta file")
+p.add_argument(-g, required = True, help = "Path to gff3 file" )
+p.add_argument(taxtable, default = None, required = False, help = "NCBI-entry to SP name correspondance table")
+p.add_argument(blacklist, default = None, required = False, help = "path to a file listing sequences from fasta to ignore")
+args = p.parse_args()
 
-if len(sys.argv) >3:
-    taxtable = sys.argv[4]
-else:
-    taxtable = None
-
-if len(sys.argv) == 5:
-    blacklist_path = sys.argv[5]
+if args.blacklist is not None:
+    blacklist_path = args.blacklist
     with open(blacklist_path, "r") as inf:
-        blacklist = [x.strip().replace(" ", "_") for x in inf]
+        args.blacklist = [x.strip().replace(" ", "_") for x in inf]
 else:
-    blacklist = [None]
-print(blacklist)
+    args.blacklist = []
 
 #Constant
 OUTDIR = "15_new_gene_sequences"
@@ -154,11 +153,11 @@ def parse_taxo(table):
         for line in tablin:
             print(line)
             l = line.strip().split()
-            acc = l[7]
+            acc = l[0]
             if acc.endswith(".1"):
                 acc = acc[:-2]
-            convtable[acc] = l[5] + "_" + l[6]
-    return convtable
+            convtable[acc] = l[1]
+return convtable
 
 def parse_gene_seq(coord, fasta, blacklist):
     results_prot = {} 
@@ -178,11 +177,10 @@ def parse_gene_seq(coord, fasta, blacklist):
 
 
 # Main
-tax = parse_taxo(taxtable) if taxtable is not None else None
-gene_coord = parse_gff(gff, gene_names, tax)
-fasta_dict = parse_fasta(fasta, tax)
-
-prot_seq = parse_gene_seq(gene_coord, fasta_dict, blacklist)
+tax = parse_taxtable(args.taxtable)
+gene_coord = parse_gff(args.g, gene_names, tax)
+fasta_dict = parse_fasta(args.f, tax)
+prot_seq = parse_gene_seq(gene_coord, fasta_dict, args.blacklist)
 
 for gene in prot_seq:
     with open(f"{OUTDIR}/{gene}.prot", "w") as prot:
